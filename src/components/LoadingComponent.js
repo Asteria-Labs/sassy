@@ -16,9 +16,10 @@ function Loading({ isLoading }) {
         >
             <Modal.Body>
                 <div className='tabs-font4 text-center'>
+                    <h1>Lodging your Sassy</h1>
                     <img className='sassyLoading img-fluid' src={sassyloading1} alt='sassy loading' />
-                    <h2>Creating your Lodge</h2>
-                <p>Don't close this window</p>
+                    <h2 className='mont-semi'>Creating your Lodge</h2>
+                    <p  className='mont-semi'>Don't close this window</p>
                 </div>
             </Modal.Body>
         </Modal>
