@@ -1,0 +1,189 @@
+@font-face {
+  font-family: kiddos;
+  src: url(./assets/fonts/KIdDOS-Regular.ttf);
+}
+
+@font-face {
+  font-family: montserrat-light;
+  src: url(./assets/fonts/Montserrat-Light.ttf);
+}
+
+@font-face {
+  font-family: montserrat-semibold;
+  src: url(./assets/fonts/Montserrat-SemiBold.ttf);
+}
+
+.App {
+  background-color: #f8f1ea;
+}
+
+.home {
+  position: relative;
+}
+
+.center {
+  position: absolute;
+  top: 57%;
+  width: 100%;
+  text-align: center;
+}
+
+.mainBg {
+  content: url(./assets/Lodge_door_image1.JPG);
+}
+
+img { 
+  width: 100%;
+  height: auto;
+}
+
+.connectbutton {
+  background-color: transparent;
+  border-style: unset;
+}
+
+.sassyMainbtn {
+  content: url(./assets/sassyButton1A.png);
+}
+
+.sassyMainbtn:hover {
+  content: url(./assets/sassyButton2A.png);
+}
+
+.sassyMainbtn:active {
+  padding: 2px;
+}
+
+.conDis {
+  width: 300px;
+}
+
+.conDis:hover {
+  content: url(./assets/buttonDisconnect.png);
+}
+
+.conDis:active {
+  content: url(./assets/buttonDisconnect.png);
+}
+
+.sassylogo {
+  width: 450px;
+}
+
+.sassyAlonemodal1 {
+  width: 90px;
+}
+
+.tabs-font {
+  font-family: kiddos;
+  font-size: 30px;
+  color: #230842;
+}
+
+.tabs-font3 {
+  font-family: kiddos;
+  font-size: 22px;
+  color: #230842;
+}
+
+.tabs-font4 {
+  
+  font-family: kiddos;
+  font-size: 24px;
+  color: #230842;
+}
+
+.sassyLoading {
+  width: 600px;
+}
+
+.idTime {
+  font-size: 16px;
+}
+
+.checked {
+  position: absolute;
+  top: 0%;
+  width: 100%;
+  text-align: end;
+}
+
+.paloma {
+  width: 80px;
+}
+
+.purple {
+  color: #230842;
+  font-family: mont-light;
+  font-size: 20px;
+}
+
+.tabs-font2 {
+  font-family: kiddos;
+  font-size: 40px;
+  color: #230842;
+}
+
+.mont-light {
+  font-family: montserrat-light;
+  font-size: 15px;
+  color: black;
+  text-align: justify;
+}
+
+.mont-semi {
+  font-family: montserrat-semibold;
+  font-size: 19px;
+  color: black;
+}
+
+.mont-semi2 {
+  font-family: montserrat-semibold;
+  font-size: 20px;
+  color: #230842;
+}
+
+.lodgebutton {
+  font-family: kiddos;
+  font-size: 35px;
+  color: white;
+  background-color: #230842;
+}
+
+.lodgebuttonError {
+  font-family: kiddos;
+  font-size: 35px;
+  color: white;
+  background-color: #230842;
+}
+
+.lodgebuttonError:hover {
+  margin-left: 10px;
+}
+
+.card {
+  position: relative;
+  
+}
+
+.alone {
+  width: 150px;
+}
+
+.selectButton {
+  background-color: #b5b2b8;
+}
+
+.selectButton:hover:active {
+  background-color: #373738;
+}
+
+@media screen and (max-width: 768px) {
+  .mainBg {
+    content: url(./assets/Lodge_door_image2.JPG);
+  }
+
+  .sassyMainbtn {
+    width: 200px;
+  }
+}
