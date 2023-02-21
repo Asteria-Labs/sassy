@@ -11,7 +11,7 @@ import { faClock } from '@fortawesome/free-solid-svg-icons';
 import Loading from './LoadingComponent';
 import PBar from './ProgressBarComponent';
 
-let relativeTime = require('dayjs/plugin/relativeTime')
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 function Dashboard({accounts, setAccounts, selectedArray, lodged, setLodged,
                     setSelectedArray, nfts, setNFTS, isLoading, setIsLoading,
