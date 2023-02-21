@@ -49,6 +49,7 @@ export const NFT_TOKEN_ABI = [
   'function state() view returns (uint8)',
   'function totalSupply() view returns (uint)',
   'function maxSupply() view returns (uint)',
+  'function balanceOf(address) view returns (uint256)',
   'function publicPrice() view returns (uint)',
   'function privatePrice() view returns (uint)',
   'function mintPublic(uint64 quantity) payable',
