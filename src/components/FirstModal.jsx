@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import sassyAlone from '../assets/Sassy_Icon_From_Logo.png';
-import TermsConditionsComponent from './TermsConditionsComponent';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import sassyAlone from "../assets/Sassy_Icon_From_Logo.png";
+import TermsConditionsComponent from "./TermsConditionsComponent";
 
-
-function FirstModal({ selectedArray, setSelectedArray, nfts, setNFTS, lodged, setLodged,
-                    time, setTime, isLoading, setIsLoading, loadedData, setLoadedData }) {
-
-  
-
+function FirstModal({
+  selectedArray,
+  setSelectedArray,
+  nfts,
+  setNFTS,
+  time,
+  setTime,
+  isLoading,
+  setIsLoading,
+}) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [checked, setChecked] = useState(false);
 
@@ -18,9 +22,7 @@ function FirstModal({ selectedArray, setSelectedArray, nfts, setNFTS, lodged, se
   const fakeRequest = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(
-          "Creating you Lodge, Don't close this window"
-        );
+        resolve("Creating your Lodge, Don't close this window");
       }, 5000);
     });
   };
@@ -30,7 +32,7 @@ function FirstModal({ selectedArray, setSelectedArray, nfts, setNFTS, lodged, se
     setShow(true);
     setChecked(false);
     setIsDisabled(true);
-  }
+  };
 
   const canBeSubmitted = () => {
     return checked ? setIsDisabled(true) : setIsDisabled(false);
