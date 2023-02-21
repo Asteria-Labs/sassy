@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import WalletContext from "../contexts/WalletContext";
 
 function Main() {
-  const [accounts, setAccounts] = useState([]);
   const [selectedArray, setSelectedArray] = useState([]);
   const [nfts, setNFTS] = useState(NFTS);
   const [lodged, setLodged] = useState(false);
@@ -26,14 +25,12 @@ function Main() {
             <Route
               exact
               path="/"
-              element={<Home accounts={accounts} setAccounts={setAccounts} />}
+              element={<Home />}
             />
             <Route
               path="/dashboard"
               element={
                 <Dashboard
-                  accounts={accounts}
-                  setAccounts={setAccounts}
                   selectedArray={selectedArray}
                   setSelectedArray={setSelectedArray}
                   nfts={nfts}
