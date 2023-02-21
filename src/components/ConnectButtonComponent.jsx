@@ -4,22 +4,12 @@ import { useNavigate } from "react-router-dom";
 import useWallet from "../hooks/useWallet";
 
 const ConnectButton = () => {
-  const { connect } = useWallet();
+  const { connect, isConnected } = useWallet();
   const navigate = useNavigate();
 
-  // Función para conectarse con la wallet
-  async function connectAccount() {
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      // setAccounts(accounts);
-      // console.log(accounts);
-    }
-    // if (accounts !== []) {
-    //   navigate("/dashboard");
-    // }
-  }
+  React.useEffect(() => {
+    if (isConnected) navigate("/dashboard");
+  }, [isConnected]);
 
   return (
     <div>
