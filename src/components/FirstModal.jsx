@@ -1,31 +1,33 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import sassyAlone from "../assets/Sassy_Icon_From_Logo.png";
+
 import TermsConditionsComponent from "./TermsConditionsComponent";
+import sassyAlone from "../assets/Sassy_Icon_From_Logo.png";
+
+import useNftContract from "../hooks/useNftContract";
+import { MESSAGES } from "../config";
 
 function FirstModal({
   selectedArray,
-  setSelectedArray,
+  handleToggleShowLodged,
+  showLodged,
+  setShowLodged,
   nfts,
-  setNFTS,
   time,
   setTime,
   isLoading,
   setIsLoading,
 }) {
+  const [show, setShow] = useState(false);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [checked, setChecked] = useState(false);
 
-  const [show, setShow] = useState(false);
-
-  const fakeRequest = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("Creating your Lodge, Don't close this window");
-      }, 5000);
-    });
-  };
+  const { nftContract } = useNftContract();
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -43,62 +45,80 @@ function FirstModal({
     return canBeSubmitted();
   };
 
-  const lodgeSassy = async () => {
+  async function handleLodging() {
     if (!selectedArray.some((i) => Number.isInteger(i))) {
       setChecked(false);
       setIsDisabled(true);
       handleClose();
-      setSelectedArray([]);
+      handleToggleShowLodged();
       window.alert("No Sassy selected!");
     }
 
-      /// TODO lodge sassy
-    _trySassyLodge(fakeRequest);
-  };
+    const ids = nfts
+      .filter((_, idx) => {
+        return selectedArray.includes(idx);
+      })
+      .map(({ id }) => id);
 
-  async function unlodgeSassy() {
-    if (!selectedArray.some((i) => Number.isInteger(i))) {
-      setChecked(false);
-      setIsDisabled(true);
-      window.alert("No Sassy selected!");
-      setSelectedArray([]);
-      handleClose();
-      return;
-    }
-
-      /// TODO unlodge sassy
-    _trySassyLodge(fakeRequest);
+    _trySassyLodge(ids);
   }
 
-  async function _trySassyLodge(f) {
+  async function _trySassyLodge(ids) {
     setIsLoading(true);
     try {
-      await f();
+      await nftContract.toggleLodging(ids);
 
       setTime(Date.now());
 
       setIsLoading(false);
-      setSelectedArray([]);
+      handleToggleShowLodged();
       handleClose();
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(JSON.parse(JSON.stringify(error)));
+
+      const errorCode = error?.reason?.split(/:(.*)/s)[1].trim() || error?.code;
+      if (errorCode == "Sassy: Lodging Closed!") {
+        toast.error("Lodging is not open yet!");
+      } else if (errorCode && MESSAGES[`mint.error.${errorCode}`]) {
+        toast.error(MESSAGES[`mint.error.${errorCode}`]);
+      } else {
+        toast.error(MESSAGES["mint.error.DEFAULT"]);
+      }
 
       setIsLoading(false);
-      setSelectedArray([]);
+      handleToggleShowLodged([]);
       handleClose();
     }
   }
 
   return (
     <>
-      <Button
-        className="lodgebutton"
-        disabled={selectedArray.every((a) => a == undefined)}
-        variant="primary"
-        onClick={handleShow}
-      >
-        {false ? "Unlodge" : "Lodge your Sassy!"}
-      </Button>
+      <div className="flex place-content-center">
+        <Form
+          onChange={handleToggleShowLodged}
+          style={{
+            cursor: selectedArray.some((n) => !!n) ? "pointer" : "auto",
+          }}
+          className="bg-[#230842] w-full justify-evenly rounded-3xl font-['kiddos'] text-white text-[35px] flex p-2 px-4"
+        >
+          <Form.Check type="switch" />
+
+          <Button
+            className="lodgebutton pr-8 flex-grow text-4xl border-none hover:bg-bg-blue-700"
+            style={{
+              cursor: selectedArray.every((n) => n == undefined)
+                ? "auto"
+                : "pointer",
+            }}
+            disabled={selectedArray.every((n) => n == undefined)}
+            variant="primary"
+            type="button"
+            onClick={handleShow}
+          >
+            {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy"}
+          </Button>
+        </Form>
+      </div>
 
       <Modal
         scrollable={true}
@@ -149,7 +169,7 @@ function FirstModal({
                 className="lodgebutton"
                 disabled={isDisabled}
                 variant="primary"
-                onClick={lodgeSassy}
+                onClick={handleLodging}
               >
                 {false ? "Lets unlodge" : "Lets lodge"}
               </Button>
