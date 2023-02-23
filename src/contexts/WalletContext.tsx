@@ -59,7 +59,7 @@ export default function WalletProvider(
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
 
   const readOnlyProvider = useMemo(
-    () => new ethers.providers.JsonRpcProvider(ETHEREUM_URL, NETWORK),
+    () => new ethers.providers.JsonRpcProvider(ETHEREUM_URL),
     [],
   );
 
@@ -92,7 +92,7 @@ export default function WalletProvider(
     };
 
     setWeb3Modal(new Web3Modal({
-      network: NETWORK === 'homestead' ? 'mainnet' : NETWORK,
+      // network: NETWORK === 'homestead' ? 'mainnet' : NETWORK,
       cacheProvider: autoLogin,
       disableInjectedProvider: false,
       providerOptions,

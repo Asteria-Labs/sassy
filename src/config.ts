@@ -1,21 +1,21 @@
 // export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || `https://${NETWORK}.infura.io/v3/${INFURA_ID}`;
-export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || '';
+export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || 'http://127.0.0.1:8545/';
 
 import { Network } from 'alchemy-sdk';
 export const ALCHEMY_SETTINGS = {
   apiKey: process.env.ALCHEMY_API_KEY || '',
-  network: Network.MATIC_MUMBAI
+  network: Network.ETH_MAINNET
 }
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Sassy Labs Lodging dApp';
 
-export const NETWORK = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK || 'maticmum';
+export const NETWORK = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK || 'unknown'; // <-- localhost
 
-export const CHAIN_ID = process.env.NEXT_PUBLIC_ETHEREUM_CHAIN_ID || '80001';
+export const CHAIN_ID = process.env.NEXT_PUBLIC_ETHEREUM_CHAIN_ID || '1337';
 
 export const FORTMATIC_KEY = process.env.NEXT_PUBLIC_FORTMATIC_KEY || '';
 
-export const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || '0xea4a7aaaea1ad67bbd1d74cf31aae0caae1573ab';
+export const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 export const ERC20_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_ERC20_CONTRACT_ADDRESS || '';
 
@@ -34,16 +34,16 @@ export const MESSAGES = {
   'mint.confirm': 'Please confirm the transaction to {mintType} mint {quantity} token{pluralSuffix}',
   'mint.pending': '{capitalizedMintType} minting {quantity} token{pluralSuffix}...',
   'mint.success': 'Congratulations! You have successfully {mintType} minted {quantity} token{pluralSuffix}!',
-  'mint.error.NOT_WHITELISTED': 'Error minting token, you are not whitelisted',
-  'mint.error.TRANSACTION_REPLACED': 'Error minting token, the transaction was either replaced or canceled',
-  'mint.error.INSUFFICIENT_FUNDS': 'Error minting token, please make sure that you have enough balance to mint',
-  'mint.error.ACTION_REJECTED': 'Error minting token, you have rejected the transaction',
-  'mint.error.INSUFFICIENT_QUANTITY': 'Error minting token, you must mint at least 1 token',
-  'mint.error.INSUFFICIENT_SUPPLY': 'Error minting token, you cannot mint more than the remaining supply',
+  'mint.error.NOT_WHITELISTED': 'You are not whitelisted',
+  'mint.error.TRANSACTION_REPLACED': 'the transaction was either replaced or canceled',
+  'mint.error.INSUFFICIENT_FUNDS': 'Please make sure that you have enough balance to mint',
+  'mint.error.ACTION_REJECTED': 'You have rejected the transaction',
+  'mint.error.INSUFFICIENT_QUANTITY': 'You must mint at least 1 token',
+  'mint.error.INSUFFICIENT_SUPPLY': 'You cannot mint more than the remaining supply',
   'mint.error.DEFAULT': 'An error occured. Please try again later',
-  'mint.customError.WhitelistForbidden': 'Error minting token, you are not whitelisted',
-  'mint.customError.WhitelistConsumed': 'Error minting token, you have consumed your whitelist slots',
-  'mint.customError.InsufficientPayment': 'Error minting token, you must pay the correct amount',
+  'mint.customError.WhitelistForbidden': 'You are not whitelisted',
+  'mint.customError.WhitelistConsumed': 'You have consumed your whitelist slots',
+  'mint.customError.InsufficientPayment': 'You must pay the correct amount',
 } as { [key: string]: string };
 
 // Use human-readable ABI of only used functions and errors to reduce bloat
