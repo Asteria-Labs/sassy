@@ -13,12 +13,11 @@ import { MESSAGES } from "../config";
 
 function FirstModal({
   selectedArray,
-  handleToggleShowLodged,
+  setSelectedArray,
   showLodged,
-  setShowLodged,
+  handleToggleShowLodged,
   nfts,
-  time,
-  setTime,
+  reloadUserNfts,
   isLoading,
   setIsLoading,
 }) {
@@ -46,7 +45,11 @@ function FirstModal({
   };
 
   async function handleLodging() {
-    if (!selectedArray.some((i) => Number.isInteger(i))) {
+    if (
+      !selectedArray ||
+      selectedArray.length < 1 ||
+      !selectedArray.some((i) => Number.isInteger(i))
+    ) {
       setChecked(false);
       setIsDisabled(true);
       handleClose();
@@ -56,7 +59,8 @@ function FirstModal({
 
     const ids = nfts
       .filter((_, idx) => {
-        return selectedArray.includes(idx);
+        const array = selectedArray || [];
+        return array.includes(idx);
       })
       .map(({ id }) => id);
 
@@ -66,17 +70,22 @@ function FirstModal({
   async function _trySassyLodge(ids) {
     setIsLoading(true);
     try {
-      await nftContract.toggleLodging(ids);
+      const tx = await nftContract.toggleLodging(ids);
+      await tx.wait();
 
-      setTime(Date.now());
+      await reloadUserNfts();
+      toast.success(
+        `Sassy successfully ${showLodged ? "unlodged" : "lodged"}!`
+      );
 
       setIsLoading(false);
-      handleToggleShowLodged();
+      setSelectedArray([]);
       handleClose();
     } catch (error) {
-      console.error(JSON.parse(JSON.stringify(error)));
+      console.error(error);
 
-      const errorCode = error?.reason?.split(/:(.*)/s)[1].trim() || error?.code;
+      const errorCode =
+        error?.reason?.split(/:(.*)/s)[1]?.trim() || error?.code;
       if (errorCode == "Sassy: Lodging Closed!") {
         toast.error("Lodging is not open yet!");
       } else if (errorCode && MESSAGES[`mint.error.${errorCode}`]) {
@@ -86,7 +95,7 @@ function FirstModal({
       }
 
       setIsLoading(false);
-      handleToggleShowLodged([]);
+      setSelectedArray([]);
       handleClose();
     }
   }
@@ -97,7 +106,10 @@ function FirstModal({
         <Form
           onChange={handleToggleShowLodged}
           style={{
-            cursor: selectedArray.some((n) => !!n) ? "pointer" : "auto",
+            cursor:
+              selectedArray && selectedArray.some((n) => !!n)
+                ? "pointer"
+                : "auto",
           }}
           className="bg-[#230842] w-full justify-evenly rounded-3xl font-['kiddos'] text-white text-[35px] flex p-2 px-4"
         >
@@ -106,11 +118,14 @@ function FirstModal({
           <Button
             className="lodgebutton pr-8 flex-grow text-4xl border-none hover:bg-bg-blue-700"
             style={{
-              cursor: selectedArray.every((n) => n == undefined)
-                ? "auto"
-                : "pointer",
+              cursor:
+                !selectedArray || selectedArray.every((n) => n == undefined)
+                  ? "auto"
+                  : "pointer",
             }}
-            disabled={selectedArray.every((n) => n == undefined)}
+            disabled={
+              !selectedArray || selectedArray.every((n) => n == undefined)
+            }
             variant="primary"
             type="button"
             onClick={handleShow}
@@ -134,7 +149,9 @@ function FirstModal({
             alt="sassyAlone"
             className="img-fluid sassyAlonemodal1"
           />
-          <p className="tabs-font2">Lodge your Sassy!</p>
+          <p className="tabs-font2">
+            {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy"}
+          </p>
           <div className="text-start px-4">
             <p className="mont-light">Lodging of Shredding Sassy NFTs</p>
             <p className="mont-light">
