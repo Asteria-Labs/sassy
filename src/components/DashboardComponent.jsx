@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
 import { toast } from "react-toastify";
 import { Alchemy } from "alchemy-sdk";
 
@@ -21,6 +23,8 @@ import checked from "../assets/paloma.png";
 import useWallet from "../hooks/useWallet";
 import useNftContract from "../hooks/useNftContract";
 
+TimeAgo.addDefaultLocale(en);
+
 import { ALCHEMY_SETTINGS, NFT_CONTRACT_ADDRESS } from "../config.ts";
 
 function Dashboard({ isLoading, setIsLoading }) {
@@ -30,15 +34,11 @@ function Dashboard({ isLoading, setIsLoading }) {
   const [selectedArray, setSelectedArray] = useState([]);
   const { nftContract } = useNftContract();
 
-  dayjs.extend(relativeTime);
-  const [time, setTime] = useState(Date.now());
-  const tiempo = dayjs(time).fromNow();
-
   const { disconnect, isConnected, address } = useWallet();
+  const timeAgo = new TimeAgo("en-US");
 
   useEffect(() => {
     fetchUsersNfts(address).then((nfts) => {
-      setSelectedArray(new Array(nfts.length));
       fetchSassyInfo(nfts).then((sassies) => {
         setNfts(sassies);
       });
@@ -225,7 +225,9 @@ function Dashboard({ isLoading, setIsLoading }) {
                                         {lodgeStatus ? (
                                           <p>
                                             <FontAwesomeIcon icon={faClock} />{" "}
-                                            {tiempo}
+                                            {timeAgo.format(
+                                              Date.now() - 3000
+                                            )}
                                           </p>
                                         ) : (
                                           ""
