@@ -60,6 +60,19 @@ function Dashboard({ isLoading, setIsLoading }) {
     }
   }
 
+  async function reloadSassyLodging() {
+    if (!nfts || nfts.length < 1) return;
+    const sassyLodging = await fetchLodgeState(nfts.map(({ id }) => id));
+    const sassies = nfts.map(({ id, imgUrl }, idx) => {
+      return {
+        id,
+        imgUrl,
+        lodgeStatus: sassyLodging[idx],
+      };
+    });
+    setNfts(sassies);
+  }
+
   async function fetchSassyInfo(nfts) {
     const sassyImgs = await fetchImages(nfts);
     const sassyLodging = await fetchLodgeState(nfts);
@@ -79,7 +92,18 @@ function Dashboard({ isLoading, setIsLoading }) {
       );
       return { id, imgUrl: data?.image_url || "" };
     });
-    return await Promise.all(imgPromises);
+    try {
+      return await Promise.all(imgPromises);
+    } catch (e) {
+      const backupImgPromises = nfts.map(async (id) => {
+        const imgUrl = nftContract.tokenId(id);
+        return { id, imgUrl };
+      });
+      return await Promise.all(backupImgPromises).catch((_) => {
+        toast.error("Could not load images. Please try again later");
+        return new Array(nfts.lengths);
+      });
+    }
   }
 
   async function fetchLodgeState(nfts) {
@@ -92,12 +116,12 @@ function Dashboard({ isLoading, setIsLoading }) {
     disconnect();
   }
 
-  const handleSelect = (i) => {
-    const tempArray = [...selectedArray];
-    if (tempArray[i] == i) {
-      tempArray[i] = undefined;
+  const handleSelect = (id) => {
+    let tempArray = [...selectedArray];
+    if (tempArray.includes(id)) {
+      tempArray = tempArray.filter((n) => n != id);
     } else {
-      tempArray[i] = i;
+      tempArray.push(id);
     }
     setSelectedArray(tempArray);
   };
@@ -194,16 +218,13 @@ function Dashboard({ isLoading, setIsLoading }) {
                           ({ lodgeStatus: [status] }) => status == showLodged
                         )
                         .map(
-                          (
-                            {
-                              id,
-                              lodgeStatus: [lodgeStatus, timeSince, totalTime],
-                              imgUrl,
-                            },
-                            idx
-                          ) => {
-                            const selected =
-                              selectedArray[idx] === idx ? true : false;
+                          ({
+                            id,
+                            lodgeStatus: [lodgeStatus, timeSince],
+                            imgUrl,
+                          }) => {
+                            const array = selectedArray || [];
+                            const selected = array.includes(id);
 
                             return (
                               <div
@@ -226,7 +247,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                                           <p>
                                             <FontAwesomeIcon icon={faClock} />{" "}
                                             {timeAgo.format(
-                                              Date.now() - 3000
+                                              Date.now() - timeStamp * 3000
                                             )}
                                           </p>
                                         ) : (
@@ -241,7 +262,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                                             ? "btn btn-outline-secondary mont-semi2 px-1"
                                             : "btn btn-light selectButton mont-semi2 px-1"
                                         }
-                                        onClick={() => handleSelect(idx)}
+                                        onClick={() => handleSelect(id)}
                                       >
                                         Select
                                       </button>
@@ -273,8 +294,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                       showLodged={showLodged}
                       handleToggleShowLodged={handleToggleShowLodged}
                       nfts={nfts}
-                      time={time}
-                      setTime={setTime}
+                      reloadUserNfts={reloadSassyLodging}
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
                     />
