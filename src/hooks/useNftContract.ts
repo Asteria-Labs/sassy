@@ -10,14 +10,15 @@ import { CHAIN_ID, NFT_CONTRACT_ADDRESS, NFT_TOKEN_ABI } from '../config';
 const contractInterface = new ethers.utils.Interface(NFT_TOKEN_ABI);
 
 export default function useNftContract() {
-  const { address, provider, readOnlyProvider, signer } = useWallet();
+  // const { address, provider, readOnlyProvider, signer } = useWallet();
+  const { signer } = useWallet();
 
-  const [state, setState] = useState<number>();
+  /* const [state, setState] = useState<number>();
   const [totalSupply, setTotalSupply] = useState<number>();
   const [maxSupply, setMaxSupply] = useState<number>();
   const [balanceOf, setBalanceOf] = useState<number>();
   const [publicPrice, setPublicPrice] = useState<string>();
-  const [privatePrice, setPrivatePrice] = useState<string>();
+  const [privatePrice, setPrivatePrice] = useState<string>(); */
 
   const nftContract = useMemo(
     () => new ethers.Contract(
@@ -28,6 +29,7 @@ export default function useNftContract() {
     [signer],
   );
 
+  /* 
   const multicallProvider = useMemo(
     () => {
       const innerProvider: ethers.providers.Provider | undefined = provider || readOnlyProvider;
@@ -88,8 +90,10 @@ export default function useNftContract() {
   useEffect(() => {
     reload();
   }, [nftContract, reload]);
+  */
 
   return {
-    nftContract, state, totalSupply, maxSupply, balanceOf, publicPrice, privatePrice, reload,
+    // nftContract, state, totalSupply, maxSupply, balanceOf, publicPrice, privatePrice, reload,
+    nftContract
   };
 }

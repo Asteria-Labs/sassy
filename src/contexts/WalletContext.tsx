@@ -11,7 +11,6 @@ import React, {
 import {
   CHAIN_ID,
   NETWORK,
-  INFURA_ID,
   FORTMATIC_KEY,
   ETHEREUM_URL,
   APP_NAME, WEB3MODAL,
@@ -71,15 +70,14 @@ export default function WalletProvider(
           package: WalletConnectProvider,
           options: {
             rpc: { [CHAIN_ID]: ETHEREUM_URL },
-            infuraId: INFURA_ID,
+            // infuraId: INFURA_ID,
           },
-          // projectId: "b757631e8a85b10583b8b5d9b739dd64"
         },
         coinbasewallet: {
           package: CoinbaseWalletSDK,
           options: {
             appName: APP_NAME,
-            infuraId: INFURA_ID,
+            // infuraId: INFURA_ID,
             chainId: CHAIN_ID,
             darkMode: true,
           },
