@@ -1,18 +1,21 @@
+// export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || `https://${NETWORK}.infura.io/v3/${INFURA_ID}`;
+export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || '';
+
+import { Network } from 'alchemy-sdk';
+export const ALCHEMY_SETTINGS = {
+  apiKey: process.env.ALCHEMY_API_KEY || '',
+  network: Network.MATIC_MUMBAI
+}
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Sassy Labs Lodging dApp';
 
-export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+export const NETWORK = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK || 'maticmum';
 
-export const NETWORK = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK || 'goerli';
-
-export const CHAIN_ID = process.env.NEXT_PUBLIC_ETHEREUM_CHAIN_ID || '5';
-
-export const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID || '';
+export const CHAIN_ID = process.env.NEXT_PUBLIC_ETHEREUM_CHAIN_ID || '80001';
 
 export const FORTMATIC_KEY = process.env.NEXT_PUBLIC_FORTMATIC_KEY || '';
 
-export const ETHEREUM_URL = process.env.NEXT_PUBLIC_ETHEREUM_URL || `https://${NETWORK}.infura.io/v3/${INFURA_ID}`;
-
-export const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || '';
+export const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || '0xea4a7aaaea1ad67bbd1d74cf31aae0caae1573ab';
 
 export const ERC20_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_ERC20_CONTRACT_ADDRESS || '';
 
@@ -37,7 +40,7 @@ export const MESSAGES = {
   'mint.error.ACTION_REJECTED': 'Error minting token, you have rejected the transaction',
   'mint.error.INSUFFICIENT_QUANTITY': 'Error minting token, you must mint at least 1 token',
   'mint.error.INSUFFICIENT_SUPPLY': 'Error minting token, you cannot mint more than the remaining supply',
-  'mint.error.DEFAULT': 'Error minting token, please try again',
+  'mint.error.DEFAULT': 'An error occured. Please try again later',
   'mint.customError.WhitelistForbidden': 'Error minting token, you are not whitelisted',
   'mint.customError.WhitelistConsumed': 'Error minting token, you have consumed your whitelist slots',
   'mint.customError.InsufficientPayment': 'Error minting token, you must pay the correct amount',
@@ -50,8 +53,10 @@ export const NFT_TOKEN_ABI = [
   'function totalSupply() view returns (uint)',
   'function maxSupply() view returns (uint)',
   'function balanceOf(address) view returns (uint256)',
+  'function lodgingPeriod(uint256) view returns (bool,uint256,uint256)',
   'function publicPrice() view returns (uint)',
   'function privatePrice() view returns (uint)',
+  'function toggleLodging(uint256[]) public',
   'function mintPublic(uint64 quantity) payable',
   'function mintPrivate(uint64 quantity, uint64 allotted, bytes signature) payable',
   'function mintPrivateMerkle(uint64 quantity, uint64 allotted, bytes32[] proof) payable',
