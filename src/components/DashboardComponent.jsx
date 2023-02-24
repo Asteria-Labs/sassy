@@ -38,6 +38,8 @@ function Dashboard({ isLoading, setIsLoading }) {
   const timeAgo = new TimeAgo("en-US");
 
   useEffect(() => {
+    if (!isConnected) window.location.replace("/");
+
     fetchUsersNfts(address).then((nfts) => {
       fetchSassyInfo(nfts).then((sassies) => {
         setNfts(sassies);
