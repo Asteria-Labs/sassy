@@ -153,7 +153,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                 </button>
               </div>
             </div>
-            <div className="row m-5 p-5">
+            <div className="row sm:m-5 sm:p-5">
               <nav>
                 <div
                   className="nav nav-tabs tabs-font"
@@ -208,8 +208,8 @@ function Dashboard({ isLoading, setIsLoading }) {
                 >
                   <div className="row">
                     {!nfts || nfts?.length < 1 ? (
-                      <div>
-                        <h1 className="text-center px-32 pb-4 text-3xl font-['kiddos']">
+                      <div className="flex justify-center">
+                        <h1 className="text-center px-8 sm:px-32 pb-4 text-2xl sm:text-4xl max-w-full lg:max-w-[75%] font-['kiddos']">
                           Could not find any Sassies in your wallet. Make sure
                           you have the correct wallet connected and try again.
                         </h1>
@@ -249,7 +249,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                                           <p>
                                             <FontAwesomeIcon icon={faClock} />{" "}
                                             {timeAgo.format(
-                                              Date.now() - timeStamp * 3000
+                                              Date.now() - timeSince * 13_000
                                             )}
                                           </p>
                                         ) : (
@@ -289,18 +289,21 @@ function Dashboard({ isLoading, setIsLoading }) {
                     )}
                   </div>
 
-                  <div className="row tabs-font mt-4 px-2">
-                    <FirstModal
-                      selectedArray={selectedArray}
-                      setSelectedArray={setSelectedArray}
-                      showLodged={showLodged}
-                      handleToggleShowLodged={handleToggleShowLodged}
-                      nfts={nfts}
-                      reloadUserNfts={reloadSassyLodging}
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
-                    />
-                  </div>
+                  {nfts ||
+                    (nfts.length > 0 && (
+                      <div className="row tabs-font mt-4 px-2">
+                        <FirstModal
+                          selectedArray={selectedArray}
+                          setSelectedArray={setSelectedArray}
+                          showLodged={showLodged}
+                          handleToggleShowLodged={handleToggleShowLodged}
+                          nfts={nfts}
+                          reloadUserNfts={reloadSassyLodging}
+                          isLoading={isLoading}
+                          setIsLoading={setIsLoading}
+                        />
+                      </div>
+                    ))}
                 </div>
                 {/* <div
                   className="my-5 tab-pane fade"

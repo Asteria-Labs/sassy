@@ -64,7 +64,27 @@ function FirstModal({
       })
       .map(({ id }) => id);
 
-    _trySassyLodge(ids);
+    await _trySassyLodge(ids);
+    // await fakePromise();
+  }
+
+  async function fakePromise() {
+    setIsLoading(true);
+    try {
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("Creating your Lodge, Don't close this window");
+        }, 5000);
+      });
+
+      setIsLoading(false);
+      setSelectedArray([]);
+      handleClose();
+    } catch (_) {
+      setIsLoading(false);
+      setSelectedArray([]);
+      handleClose();
+    }
   }
 
   async function _trySassyLodge(ids) {
@@ -116,7 +136,7 @@ function FirstModal({
           <Form.Check type="switch" />
 
           <Button
-            className="lodgebutton pr-8 flex-grow text-4xl border-none hover:bg-bg-blue-700"
+            className="lodgebutton pr-8 flex-grow text-xl sm:text-4xl border-none hover:bg-bg-blue-700"
             style={{
               cursor:
                 !selectedArray || selectedArray.every((n) => n == undefined)
@@ -130,7 +150,7 @@ function FirstModal({
             type="button"
             onClick={handleShow}
           >
-            {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy"}
+            {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy!"}
           </Button>
         </Form>
       </div>
