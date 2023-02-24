@@ -18,7 +18,13 @@
 }
 
 .home {
+  width: 100vw;
+  height: 100vh;
   position: relative;
+  display: flex;
+  justify-content: center;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .center {
@@ -30,9 +36,10 @@
 
 .mainBg {
   content: url(./assets/Lodge_door_image1.JPG);
+  object-fit: cover;
 }
 
-img { 
+img {
   width: 100%;
   height: auto;
 }
@@ -87,7 +94,6 @@ img {
 }
 
 .tabs-font4 {
-  
   font-family: kiddos;
   font-size: 24px;
   color: #230842;
@@ -167,7 +173,6 @@ img {
 
 .card {
   position: relative;
-  
 }
 
 .alone {
@@ -183,9 +188,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .mainBg {
+  /* .mainBg {
     content: url(./assets/Lodge_door_image2.JPG);
-  }
+  } */
 
   .sassyMainbtn {
     width: 200px;
