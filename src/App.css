@@ -155,11 +155,15 @@ img {
   font-size: 35px;
   color: white;
   background-color: #230842;
+  padding: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 16px;
 }
 
-.lodgebuttonError:hover {
+/* .lodgebuttonError:hover {
   margin-left: 10px;
-}
+} */
 
 .card {
   position: relative;

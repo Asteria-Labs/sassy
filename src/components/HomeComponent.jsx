@@ -1,13 +1,13 @@
 import React from 'react';
 import ConnectButton from './ConnectButtonComponent';
 
-function Home({accounts, setAccounts}) {
+function Home() {
 
   return (
     <div className='container-fluid home'>
       <img className='img-fluid mainBg' width={1000} alt='lodgeDoor' />
       <div className='center'>
-        <ConnectButton accounts={accounts} setAccounts={setAccounts} />
+        <ConnectButton />
       </div>
     </div>
   );

@@ -94,9 +94,9 @@ function TermsConditionsComponent() {
 
   return (
     <>
-      <Link className='tabs-font3' variant="primary" onClick={() => setModalShow(true)}>
+      <button className='tabs-font3' style={{ background: "none", border: "none", textDecoration: "underline" }} variant="primary" onClick={() => setModalShow(true)}>
         here
-      </Link>
+      </button>
 
       <MyVerticallyCenteredModal
         show={modalShow}
