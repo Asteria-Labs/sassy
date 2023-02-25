@@ -88,22 +88,24 @@ function Dashboard({ isLoading, setIsLoading }) {
   }
 
   async function fetchImages(nfts) {
-    const imgPromises = nfts.map(async (id) => {
-      const { data } = await axios(
+    const imgPromises = nfts.map((id) => {
+      return axios(
         `https://api.opensea.io/asset/0x165bd6e2ae984d9c13d94808e9a6ba2b7348c800/${id}`
       );
-      return { id, imgUrl: data?.image_url || "" };
     });
+
     try {
-      return await Promise.all(imgPromises);
-    } catch (e) {
-      const backupImgPromises = nfts.map(async (id) => {
-        const imgUrl = nftContract.tokenId(id);
-        return { id, imgUrl };
+      const res = await Promise.all(imgPromises);
+      return res.map(({ data }) => {
+        return { id: parseInt(data?.token_id), imgUrl: data?.image_url || "" };
       });
-      return await Promise.all(backupImgPromises).catch((_) => {
-        toast.error("Could not load images. Please try again later");
-        return new Array(nfts.lengths);
+    } catch (e) {
+      console.error(e);
+      return nfts.map((id) => {
+        return {
+          id: id,
+          imgUrl: `https://ipfs.io/ipfs/QmXbhJxe6rcKWQvTMBSpqEE7ia1CFeWGjQJmHTxWyF3jiU/${id}.png`,
+        };
       });
     }
   }
