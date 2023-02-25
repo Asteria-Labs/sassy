@@ -289,21 +289,18 @@ function Dashboard({ isLoading, setIsLoading }) {
                     )}
                   </div>
 
-                  {nfts ||
-                    (nfts.length > 0 && (
-                      <div className="row tabs-font mt-4 px-2">
-                        <FirstModal
-                          selectedArray={selectedArray}
-                          setSelectedArray={setSelectedArray}
-                          showLodged={showLodged}
-                          handleToggleShowLodged={handleToggleShowLodged}
-                          nfts={nfts}
-                          reloadUserNfts={reloadSassyLodging}
-                          isLoading={isLoading}
-                          setIsLoading={setIsLoading}
-                        />
-                      </div>
-                    ))}
+                  <div className="row tabs-font mt-4 px-2">
+                    <FirstModal
+                      selectedArray={selectedArray}
+                      setSelectedArray={setSelectedArray}
+                      showLodged={showLodged}
+                      handleToggleShowLodged={handleToggleShowLodged}
+                      nfts={nfts}
+                      reloadUserNfts={reloadSassyLodging}
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                    />
+                  </div>
                 </div>
                 {/* <div
                   className="my-5 tab-pane fade"
