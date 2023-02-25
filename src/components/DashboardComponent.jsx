@@ -212,7 +212,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                     {!nfts || nfts?.length < 1 ? (
                       <div className="flex justify-center">
                         <h1 className="text-center px-8 sm:px-32 pb-4 text-2xl sm:text-4xl max-w-full lg:max-w-[75%] font-['kiddos']">
-                          Could not find any Sassies in your wallet. Make sure
+                          Could not find any Sassy&rsquo;s in your wallet. Make sure
                           you have the correct wallet connected and try again.
                         </h1>
                       </div>

@@ -173,7 +173,6 @@ function FirstModal({
             {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy"}
           </p>
           <div className="text-start px-4">
-            <p className="mont-light">Lodging of Shredding Sassy NFTs</p>
             <p className="mont-light">
               While your Sassy is lodging, you won’t be able to sell it on
               marketplaces such as Opensea or our own. To do this, you’ll need
