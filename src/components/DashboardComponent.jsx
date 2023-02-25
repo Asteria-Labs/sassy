@@ -212,82 +212,92 @@ function Dashboard({ isLoading, setIsLoading }) {
                     {!nfts || nfts?.length < 1 ? (
                       <div className="flex justify-center">
                         <h1 className="text-center px-8 sm:px-32 pb-4 text-2xl sm:text-4xl max-w-full lg:max-w-[75%] font-['kiddos']">
-                          Could not find any Sassy&rsquo;s in your wallet. Make sure
-                          you have the correct wallet connected and try again.
+                          Could not find any Sassy&rsquo;s in your wallet. Make
+                          sure you have the correct wallet connected and try
+                          again.
                         </h1>
                       </div>
                     ) : (
-                      nfts
-                        .filter(
-                          ({ lodgeStatus: [status] }) => status == showLodged
-                        )
-                        .map(
-                          ({
-                            id,
-                            lodgeStatus: [lodgeStatus, timeSince],
-                            imgUrl,
-                          }) => {
-                            const array = selectedArray || [];
-                            const selected = array.includes(id);
+                      nfts.map(
+                        ({
+                          id,
+                          lodgeStatus: [lodgeStatus, timeSince],
+                          imgUrl,
+                        }) => {
+                          const array = selectedArray || [];
+                          const selected = array.includes(id);
 
-                            return (
-                              <div
-                                key={id}
-                                className="col-md-3 col-sm-6 col-12 tabs-font4"
-                              >
-                                <div className="card border-light">
-                                  <img
-                                    src={imgUrl}
-                                    className="card-img-top img-fluid"
-                                    alt={`Shredding Sassy #${id}`}
-                                  />
-                                  <div className="card-body">
-                                    <div className="row idTime align-items-center">
-                                      <div className="col-3 whitespace-nowrap">
-                                        <p>#{id}</p>
-                                      </div>
-                                      <div className="col-9 text-end ">
-                                        {lodgeStatus ? (
-                                          <p>
-                                            <FontAwesomeIcon icon={faClock} />{" "}
-                                            {timeAgo.format(
-                                              Date.now() - timeSince * 13_000
-                                            )}
-                                          </p>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
+                          return (
+                            <div
+                              key={id}
+                              className="col-md-3 col-sm-6 col-12 tabs-font4"
+                            >
+                              <div className="card border-light">
+                                <img
+                                  src={imgUrl}
+                                  className="card-img-top img-fluid"
+                                  alt={`Shredding Sassy #${id}`}
+                                />
+                                <div className="card-body">
+                                  <div className="row idTime align-items-center">
+                                    <div className="col-3 whitespace-nowrap">
+                                      <p>#{id}</p>
                                     </div>
-                                    <div className="row">
-                                      <button
-                                        className={
-                                          !selected
-                                            ? "btn btn-outline-secondary mont-semi2 px-1"
-                                            : "btn btn-light selectButton mont-semi2 px-1"
-                                        }
-                                        onClick={() => handleSelect(id)}
-                                      >
-                                        Select
-                                      </button>
+                                    <div className="col-9 text-end ">
+                                      {lodgeStatus ? (
+                                        <p>
+                                          <FontAwesomeIcon icon={faClock} />{" "}
+                                          {timeAgo.format(
+                                            Date.now() - timeSince * 13_000
+                                          )}
+                                        </p>
+                                      ) : (
+                                        ""
+                                      )}
                                     </div>
                                   </div>
-                                  <div
-                                    className={
-                                      selected ? "checked" : "checked d-none"
-                                    }
-                                  >
-                                    <img
-                                      src={checked}
-                                      className="paloma"
-                                      alt={checked}
-                                    />
+                                  <div className="row">
+                                    <div
+                                      style={{
+                                        background: lodgeStatus
+                                          ? "#AAFFAA"
+                                          : "#FFAAFF",
+                                      }}
+                                      className="text-sm mb-1 flex justify-center rounded-xl"
+                                    >
+                                      {lodgeStatus ? "Lodged" : "Unlodged"}
+                                    </div>
+                                    <button
+                                      className={
+                                        !selected
+                                          ? "btn btn-outline-secondary mont-semi2 px-1"
+                                          : "btn btn-light selectButton mont-semi2 px-1"
+                                      }
+                                      disabled={
+                                        showLodged ? !lodgeStatus : lodgeStatus
+                                      }
+                                      onClick={() => handleSelect(id)}
+                                    >
+                                      Select
+                                    </button>
                                   </div>
                                 </div>
+                                <div
+                                  className={
+                                    selected ? "checked" : "checked d-none"
+                                  }
+                                >
+                                  <img
+                                    src={checked}
+                                    className="paloma"
+                                    alt={checked}
+                                  />
+                                </div>
                               </div>
-                            );
-                          }
-                        )
+                            </div>
+                          );
+                        }
+                      )
                     )}
                   </div>
 
