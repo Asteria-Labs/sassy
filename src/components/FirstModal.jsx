@@ -44,6 +44,14 @@ function FirstModal({
     return canBeSubmitted();
   };
 
+  async function handleTCButtonClick() {
+    if (showLodged) {
+      await handleLodging();
+    } else {
+      handleShow();
+    }
+  }
+
   async function handleLodging() {
     if (
       !selectedArray ||
@@ -148,7 +156,7 @@ function FirstModal({
             }
             variant="primary"
             type="button"
-            onClick={handleShow}
+            onClick={handleTCButtonClick}
           >
             {showLodged ? "Unlodge your Sassy!" : "Lodge your Sassy!"}
           </Button>
@@ -207,7 +215,7 @@ function FirstModal({
                 variant="primary"
                 onClick={handleLodging}
               >
-                {false ? "Lets unlodge" : "Lets lodge"}
+                {showLodged ? "Lets unlodge" : "Lets lodge"}
               </Button>
             </div>
           </div>
