@@ -65,14 +65,7 @@ function FirstModal({
       window.alert("No Sassy selected!");
     }
 
-    const ids = nfts
-      .filter((_, idx) => {
-        const array = selectedArray || [];
-        return array.includes(idx);
-      })
-      .map(({ id }) => id);
-
-    await _trySassyLodge(ids);
+    await _trySassyLodge(selectedArray);
     // await fakePromise();
   }
 
