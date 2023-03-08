@@ -248,7 +248,7 @@ function Dashboard({ isLoading, setIsLoading }) {
                                         <p>
                                           <FontAwesomeIcon icon={faClock} />{" "}
                                           {timeAgo.format(
-                                            Date.now() - timeSince * 13_000
+                                            Date.now() - timeSince * 1300
                                           )}
                                         </p>
                                       ) : (
