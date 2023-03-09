@@ -29,6 +29,7 @@ import { ALCHEMY_SETTINGS, NFT_CONTRACT_ADDRESS } from "../config.ts";
 
 function Dashboard({ isLoading, setIsLoading }) {
   const [showLodged, setShowLodged] = useState(false);
+  const [nextPageKey, setNextPageKey] = useState(undefined);
 
   const [nfts, setNfts] = useState([]);
   const [selectedArray, setSelectedArray] = useState([]);
@@ -40,30 +41,43 @@ function Dashboard({ isLoading, setIsLoading }) {
   useEffect(() => {
     if (!isConnected) window.location.replace("/");
 
-    fetchUsersNfts(address).then((nfts) => {
-      fetchSassyInfo(nfts).then((sassies) => {
+    fetchUsersNfts(address).then(({ pageKey, tokens }) => {
+      setNextPageKey(pageKey);
+      fetchSassyInfo(tokens).then((sassies) => {
         setNfts(sassies);
       });
     });
   }, [isConnected]);
 
-  async function fetchUsersNfts(address) {
+  async function fetchUsersNfts(address, pageKey) {
     if (!address) return [];
 
     try {
       const alchemy = new Alchemy(ALCHEMY_SETTINGS);
       const nfts = await alchemy.nft.getNftsForOwner(address, {
         contractAddresses: [NFT_CONTRACT_ADDRESS],
+        pageKey,
       });
-      return nfts.ownedNfts.map(({ tokenId }) => parseInt(tokenId));
+      return {
+        pageKey: nfts.pageKey,
+        tokens: nfts.ownedNfts.map(({ tokenId }) => parseInt(tokenId)),
+      };
     } catch (e) {
       console.error(e);
       toast.error("Unable to fetch tokens. Please try again later");
     }
   }
 
+  async function handleLoadMore() {
+    const { pageKey, tokens } = await fetchUsersNfts(address, nextPageKey);
+    setNextPageKey(pageKey);
+
+    const sassies = await fetchSassyInfo(tokens);
+    setNfts([...nfts, ...sassies]);
+  }
+
   async function reloadSassyLodging() {
-    if (!nfts || nfts.length < 1) return;
+    if (!nfts || nfts?.length < 1) return [];
     const sassyLodging = await fetchLodgeState(nfts.map(({ id }) => id));
     const sassies = nfts.map(({ id, imgUrl }, idx) => {
       return {
@@ -76,6 +90,7 @@ function Dashboard({ isLoading, setIsLoading }) {
   }
 
   async function fetchSassyInfo(nfts) {
+    if (!nfts || nfts?.length < 1) return [];
     const sassyImgs = await fetchImages(nfts);
     const sassyLodging = await fetchLodgeState(nfts);
     return sassyImgs.map(({ id, imgUrl }, idx) => {
@@ -299,9 +314,20 @@ function Dashboard({ isLoading, setIsLoading }) {
                         }
                       )
                     )}
+
+                    {nextPageKey && (
+                      <div className="flex mt-4 justify-center">
+                        <button
+                          className="rounded-full place-content-center font-['kiddos'] text-2xl w-max py-2 px-4 text-white bg-blue-500 hover:bg-blue-400"
+                          onClick={handleLoadMore}
+                        >
+                          Load More
+                        </button>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="row tabs-font mt-4 px-2">
+                  <div className="flex flex-col items-center justify-center row tabs-font mt-4 px-2">
                     <FirstModal
                       selectedArray={selectedArray}
                       setSelectedArray={setSelectedArray}
